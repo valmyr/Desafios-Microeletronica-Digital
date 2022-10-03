@@ -1,0 +1,35 @@
+`include "ordena_9_num.sv"
+module filtragem_da_mediana(     input ena,
+                                 input [7:0]n1_n,
+                                 input [7:0]n2_n,
+                                 input [7:0]n3_n,
+                                 input [7:0]n4_n,
+                                 input [7:0]n5_n,
+                                 input [7:0]n6_n,
+                                 input [7:0]n7_n,
+                                 input [7:0]n8_n,
+                                 input [7:0]n9_n,
+                                 output[7:0]mediana
+);
+    ordena_9_num ordenador_9_num(.ena(ena),
+                                  .cresc_ou_decres(1'b0),
+                                  .n1_n(n1_n),
+                                  .n2_n(n2_n),
+                                  .n3_n(n3_n),
+                                  .n4_n(n4_n),
+                                  .n5_n(n5_n),
+                                  .n6_n(n6_n),
+                                  .n7_n(n7_n),
+                                  .n8_n(n8_n),
+                                  .n9_n(n9_n),
+                                   .n1(   ),
+                                   .n2(   ),
+                                   .n3(   ),
+                                   .n4(   ),
+                                   .n5(mediana),
+                                   .n6(   ),
+                                   .n7(   ),
+                                   .n8(   ),
+                                   .n9(   )
+                                  );
+endmodule
