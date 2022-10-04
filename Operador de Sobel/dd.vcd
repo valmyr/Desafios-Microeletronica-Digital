@@ -1,0 +1,44 @@
+$date
+	Mon Oct 03 23:31:03 2022
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb $end
+$scope module filtro_sobel_ $end
+$scope begin length_[0] $end
+$var parameter 2 ! i $end
+$scope begin width_[0] $end
+$var parameter 2 " j $end
+$upscope $end
+$scope begin width_[1] $end
+$var parameter 2 # j $end
+$upscope $end
+$upscope $end
+$scope begin length_[1] $end
+$var parameter 2 $ i $end
+$scope begin width_[0] $end
+$var parameter 2 % j $end
+$upscope $end
+$scope begin width_[1] $end
+$var parameter 2 & j $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1 &
+b0 %
+b1 $
+b1 #
+b0 "
+b0 !
+$end
+#12
+$dumpvars
+$end
