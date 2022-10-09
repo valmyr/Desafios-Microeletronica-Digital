@@ -9,19 +9,20 @@ localparam SF = 2**-3;
     initial begin
          $dumpfile("1.vcd");
          $dumpvars(0,log2X_);
+         $monitor("%b|%f", a,o);
          clk = 0;
     
     end
     always #1clk = ~ clk;
     initial begin
-        a[4:0] = 10;
-        a[-1:-3] = 0.5;
-        rst  = 1;
+        a[4:0] = 15;
+        a[-1:-3] = 0;
+       rst  = 1;
         #2 rst = 0;
-        #70$display("time = %g, log2(%.2f) = %b %.2f",$time, a*(2.0**-4.0),o,(o*(2.0**-5.0)));
+        #90$display("time = %g, log2(%f) = %b %f",$time, a,o, $itor(o[4:0]*2**-5));
 
     end
-    initial #100$finish;
+    initial #101 $finish;
 
 
 endmodule
