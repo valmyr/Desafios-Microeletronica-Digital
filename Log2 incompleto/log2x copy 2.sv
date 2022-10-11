@@ -1,3 +1,30 @@
+module qmult #(
+	//Parameterized values
+	parameter Q = 16,
+	parameter N = 256
+	)
+	(
+     input logic ena,
+	 input			[N-1:0]	i_multiplicand,
+	 input			[N-1:0]	i_multiplier,
+	 output			logic[N-1:0]	o_result,
+     output logic ovr
+	 );
+	logic [2*N-1:0]	r_result;
+    logic [N-1:0]		r_RetVal;
+	always @(i_multiplicand, i_multiplier,ena)	begin						
+		r_result <= ena?i_multiplicand[N-2:0] * i_multiplier[N-2:0]:0;		
+        ovr <= 1'b0;																															
+		end
+	always @(r_result) begin													
+		r_RetVal[N-1] <= i_multiplicand[N-1] ^ i_multiplier[N-1];	//		which is the XOR of the input sign bits...  (you do the truth table...)
+		r_RetVal[N-2:0] <= r_result[N-2+Q:Q];								//	And we also need to push the proper N bits of result up to 
+																						//		the calling entity...
+		if (r_result[2*N-2:N-1+Q] > 0)										// And finally, we need to check for an overflow
+			ovr <= 1'b1;
+    end						
+    assign o_result = ena? r_RetVal:0;	
+endmodule
 module log2X(input clk,
         input rst,
        input logic  [7:0] x_,
@@ -6,7 +33,7 @@ module log2X(input clk,
     logic [7:-8] x;
     logic [127:0] mant;
     logic [4:0] log2m;
-    logic y,normalizado;
+    logic y,normalizado,ena_multp;
     logic [3:0]  aprox, i;
     initial begin 
         exp = 0;
@@ -17,6 +44,7 @@ module log2X(input clk,
         mant = 0;
         x =0;
         normalizado = 0;
+        ena_multp = 0;
     end
     always@(x) begin
         casez(x[7:0])
@@ -76,8 +104,10 @@ module log2X(input clk,
                 if(i < aprox)begin
                     mant = (mant * mant);
                     i = i + 1;
+                    ena_multp = 1;
                 end
                 else begin
+                    ena_multp = 0;
                     if(mant[127:96] != 1)begin
                         mant = mant >> 1;
                         log2m = log2m + 1; 
@@ -86,5 +116,6 @@ module log2X(input clk,
                 end
             end
         end
+    qmult (ena_multp,z,z,t);
    assign log2_x = (x_ == 0) ? 11'bzzzzzzzzzz: y ? {exp,log2m}:0;
 endmodule
